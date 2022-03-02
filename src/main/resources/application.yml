@@ -1,0 +1,10 @@
+spring:
+  thymeleaf:
+    cache: false
+
+
+
+# Authorization: Basic <credentials>. 여기서 자격 증명은 단일 콜론으로 결합된 ID 및 암호 의 Base64: 인코딩
+currency:
+  id: home483035640
+  key: r8cdcjf860t9cmu0ag4nbac1qa
