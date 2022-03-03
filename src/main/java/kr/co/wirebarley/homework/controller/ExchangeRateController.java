@@ -13,15 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class ExchangeRateController {
 
-    private final ExchangeRateService exchangeRateService;
-
     @GetMapping
     public String moveExchageRatePage() {
         return "exchangeRateCalc";
-    }
-
-    @PostMapping
-    public void calculateExchageRate(ExchangeRequest exchangeRequest) {
-
     }
 }

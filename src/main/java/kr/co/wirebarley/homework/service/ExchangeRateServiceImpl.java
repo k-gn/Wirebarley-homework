@@ -17,6 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -33,7 +35,7 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
 
     @Override
     public ExchangeResult<ExchangeResultTo> convertToExchangeRate(ExchangeRequest exchangeRequest) {
-        String url = "https://xecdapi.xe.com/v1/convert_from.json/?from=USD&to=KRW&amount=100";
+        String url = makeCurrencyAPIUrl(exchangeRequest);
         ResponseEntity<String> response = requestCurrencyAPI(url);
         ExchangeResult<ExchangeResultTo> exchangeResult = currencyJsonToExchangeResult(response);
         return exchangeResult;
@@ -41,11 +43,34 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
 
     @Override
     public ExchangeResult<ExchangeResultTo> getTodayExchangeRate(ExchangeRequest exchangeRequest) {
-        String today = todayDateToString();
-        String url = "https://xecdapi.xe.com/v1/historic_rate.json/?from=USD&date=2022-03-03&to=KRW";
+        String url = makeCurrencyAPIUrl(exchangeRequest, changeTodayDateToString());
         ResponseEntity<String> response = requestCurrencyAPI(url);
         ExchangeResult<ExchangeResultTo> exchangeResult = currencyJsonToExchangeResult(response);
         return exchangeResult;
+    }
+
+    public String makeCurrencyAPIUrl(ExchangeRequest exchangeRequest) {
+        UriComponents uriComponents = UriComponentsBuilder.newInstance()
+                .scheme("https")
+                .host("xecdapi.xe.com")
+                .path("/v1/convert_from.json")
+                .queryParam("from", "USD")
+                .queryParam("to", "KRW")
+                .queryParam("amount", 100)
+                .build(true);
+        return uriComponents.toString();
+    }
+
+    public String makeCurrencyAPIUrl(ExchangeRequest exchangeRequest, String today) {
+        UriComponents uriComponents = UriComponentsBuilder.newInstance()
+                .scheme("https")
+                .host("xecdapi.xe.com")
+                .path("/v1/historic_rate.json")
+                .queryParam("from", "USD")
+                .queryParam("date", today)
+                .queryParam("to", "KRW")
+                .build(true);
+        return uriComponents.toString();
     }
 
     public ResponseEntity<String> requestCurrencyAPI(String url) {
@@ -60,9 +85,7 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
             exchangeResult = objectMapper.readValue(response.getBody(), new TypeReference<>() {});
-        } catch (JsonProcessingException e) {
-//            throw new
-        }
+        } catch (JsonProcessingException e) {}
         return exchangeResult;
     }
 
@@ -79,7 +102,7 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
         return headers;
     }
 
-    public String todayDateToString() {
+    public String changeTodayDateToString() {
         LocalDate todayDate = LocalDate.now();//For reference
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String today = todayDate.format(formatter);

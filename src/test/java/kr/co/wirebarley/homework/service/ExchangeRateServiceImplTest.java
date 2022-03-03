@@ -29,7 +29,7 @@ class ExchangeRateServiceImplTest {
                 .exchangeMoney(100L)
                 .country(Country.KRW)
                 .build();
-        Double exchangeRateMoney = 120320.2663530537;
+        Double exchangeRateMoney = 120320.2663530537; // 해당 테스트 값은 환율 정보에 따라 변경된다.
 
         // when
         ExchangeResult<ExchangeResultTo> exchangeResult = exchangeRateService.convertToExchangeRate(exchangeRequest);
@@ -55,7 +55,7 @@ class ExchangeRateServiceImplTest {
                 .exchangeMoney(100L)
                 .country(Country.KRW)
                 .build();
-        Double todayRate = 1203.2026635305;
+        Double todayRate = 1203.2026635305; // 해당 테스트 값은 환율 정보에 따라 변경된다.
 
         // when
         ExchangeResult<ExchangeResultTo> todayExchangeRate = exchangeRateService.getTodayExchangeRate(exchangeRequest);
