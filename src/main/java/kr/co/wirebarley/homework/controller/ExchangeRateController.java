@@ -1,6 +1,6 @@
 package kr.co.wirebarley.homework.controller;
 
-import kr.co.wirebarley.homework.dto.ExchangeRequest;
+import kr.co.wirebarley.homework.dto.exchange.ExchangeRequest;
 import kr.co.wirebarley.homework.service.ExchangeRateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

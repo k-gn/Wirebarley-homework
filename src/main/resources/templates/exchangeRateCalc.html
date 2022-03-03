@@ -7,18 +7,36 @@
 
 <body>
     <h1>환율 계산</h1>
-    <form action="#" method="post">
-        송금국가: 미국(USD) <br>
-        수취국가:
-        <select name="country" onchange="">
-            <option>--선택--</option>
-            <option value="KRW">한국(KRW)</option>
-            <option value="JPY">일본(JPY)</option>
-            <option value="PHP">필리핀(PHP)</option>
-        </select><br>
-        환율: <span></span><br>
-        송금액: <input type="text" name="money"> USD <br>
-        <input type="submit" value="Submit">
+    <form method="post" action="#" role="form">
+        <table>
+            <tr>
+                <td>송금국가: </td>
+                <td>미국(USD)</td>
+            </tr>
+            <tr>
+                <td>수취국가: </td>
+                <td>
+                    <select name="country" onchange="">
+                        <option>--선택--</option>
+                        <option value="KRW">한국(KRW)</option>
+                        <option value="JPY">일본(JPY)</option>
+                        <option value="PHP">필리핀(PHP)</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>환율: </td>
+                <td class="rateBox"></td>
+            </tr>
+            <tr>
+                <td>송금액: </td>
+                <td><input type="text" name="exchangeMoney"> USD </td>
+            </tr>
+            <tr>
+                <td colspan="2"><input type="button" value="Submit" onclick=""></td>
+            </tr>
+        </table>
+        <br>
     </form>
     <p>
 
