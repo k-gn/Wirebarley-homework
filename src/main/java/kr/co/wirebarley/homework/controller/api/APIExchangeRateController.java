@@ -1,5 +1,6 @@
 package kr.co.wirebarley.homework.controller.api;
 
+import kr.co.wirebarley.homework.dto.APIDataResponse;
 import kr.co.wirebarley.homework.dto.exchange.ExchangeRequest;
 import kr.co.wirebarley.homework.service.ExchangeRateService;
 import lombok.RequiredArgsConstructor;
@@ -16,15 +17,15 @@ public class APIExchangeRateController {
     private final ExchangeRateService exchangeRateService;
 
     @GetMapping("/today")
-    public ResponseEntity<?> getTodayExchangeRate(@Valid @RequestBody ExchangeRequest exchangeRequest) {
+    public ResponseEntity<?> getTodayExchangeRate(@Valid ExchangeRequest exchangeRequest) {
 
-        return ResponseEntity.ok(exchangeRateService.getTodayExchangeRate(exchangeRequest));
+        return ResponseEntity.ok(APIDataResponse.of(exchangeRateService.getTodayExchangeRate(exchangeRequest)));
     }
 
-    @GetMapping("/convert")
-    public ResponseEntity<?> convertToExchangeRate(@Valid @RequestBody ExchangeRequest exchangeRequest) {
+    @GetMapping("/calc")
+    public ResponseEntity<?> calculateExchangeRate(@Valid ExchangeRequest exchangeRequest) {
 
-        return ResponseEntity.ok(exchangeRateService.convertToExchangeRate(exchangeRequest));
+        return ResponseEntity.ok(APIDataResponse.of(exchangeRateService.calculateExchangeRate(exchangeRequest)));
     }
 
 }

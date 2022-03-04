@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-
+<script src="/js/jquery-3.5.1.js"></script>
 <body>
     <h1>환율 계산</h1>
-    <form method="post" action="#" role="form">
+    <form role="form">
         <table>
             <tr>
                 <td>송금국가: </td>
@@ -16,9 +16,8 @@
             <tr>
                 <td>수취국가: </td>
                 <td>
-                    <select name="country" onchange="">
-                        <option>--선택--</option>
-                        <option value="KRW">한국(KRW)</option>
+                    <select id="country" name="country" onchange="changeCountry(this);">
+                        <option value="KRW" selected>한국(KRW)</option>
                         <option value="JPY">일본(JPY)</option>
                         <option value="PHP">필리핀(PHP)</option>
                     </select>
@@ -26,20 +25,20 @@
             </tr>
             <tr>
                 <td>환율: </td>
-                <td class="rateBox"></td>
+                <td class="rateBox" th:text="|${exchangeRate.exchangeMoney} ${exchangeRate.country}/USD|"></td>
             </tr>
             <tr>
                 <td>송금액: </td>
-                <td><input type="text" name="exchangeMoney"> USD </td>
+                <td><input id="exchangeMoneyInput" type="text" name="exchangeMoney" value="0"> USD </td>
             </tr>
             <tr>
-                <td colspan="2"><input type="button" value="Submit" onclick=""></td>
+                <td colspan="2"><input type="button" value="Submit" onclick="exchange();"></td>
             </tr>
         </table>
         <br>
     </form>
-    <p>
-
+    <p class="calcBox">
     </p>
 </body>
+<script src="/js/exchange.js"></script>
 </html>

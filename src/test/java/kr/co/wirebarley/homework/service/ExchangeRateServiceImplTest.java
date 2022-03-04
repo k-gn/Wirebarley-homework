@@ -2,8 +2,7 @@ package kr.co.wirebarley.homework.service;
 
 import kr.co.wirebarley.homework.constant.Country;
 import kr.co.wirebarley.homework.dto.exchange.ExchangeRequest;
-import kr.co.wirebarley.homework.dto.exchange.ExchangeResult;
-import kr.co.wirebarley.homework.dto.exchange.ExchangeResultTo;
+import kr.co.wirebarley.homework.dto.exchange.ExchangeResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,58 +16,49 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(MockitoExtension.class)
 class ExchangeRateServiceImplTest {
 
-    @Autowired
-    private ExchangeRateService exchangeRateService;
+    private final ExchangeRateService exchangeRateService;
 
-    @DisplayName("1. convertToExchangeRate Test")
-    @Test
-    void convertToExchangeRate() {
-
-        // given
-        ExchangeRequest exchangeRequest = ExchangeRequest.builder()
-                .exchangeMoney(100L)
-                .country(Country.KRW)
-                .build();
-        Double exchangeRateMoney = 120320.2663530537; // 해당 테스트 값은 환율 정보에 따라 변경된다.
-
-        // when
-        ExchangeResult<ExchangeResultTo> exchangeResult = exchangeRateService.convertToExchangeRate(exchangeRequest);
-
-        // then
-        assertNotNull(exchangeResult);
-        assertEquals(exchangeResult.getFrom(), "USD");
-        assertThat(exchangeResult.getTo())
-            .hasSize(1)
-            .allSatisfy(rateInfo -> {
-                assertThat(rateInfo).hasFieldOrPropertyWithValue("quotecurrency", "KRW");
-                assertThat(rateInfo.getMid()).isNotNull().isNotZero();
-                assertEquals(rateInfo.getMid(), exchangeRateMoney);
-            });
+    ExchangeRateServiceImplTest(@Autowired ExchangeRateService exchangeRateService) {
+        this.exchangeRateService = exchangeRateService;
     }
 
-    @DisplayName("2. getTodayExchangeRate Test")
+    @DisplayName("1. 환율 정보에 따른 금액 계산 API 테스트")
     @Test
-    void getTodayExchangeRate() {
+    void givenExchangeRequest_whenCalculateExchangeRate_thenReturnsExchangeResult() {
 
         // given
         ExchangeRequest exchangeRequest = ExchangeRequest.builder()
-                .exchangeMoney(100L)
+                .exchangeMoney(100)
                 .country(Country.KRW)
                 .build();
-        Double todayRate = 1203.2026635305; // 해당 테스트 값은 환율 정보에 따라 변경된다.
 
         // when
-        ExchangeResult<ExchangeResultTo> todayExchangeRate = exchangeRateService.getTodayExchangeRate(exchangeRequest);
+        ExchangeResponse exchangeResponse = exchangeRateService.calculateExchangeRate(exchangeRequest);
 
         // then
-        assertNotNull(todayExchangeRate);
-        assertEquals(todayExchangeRate.getFrom(), "USD");
-        assertThat(todayExchangeRate.getTo())
-            .hasSize(1)
-            .allSatisfy(rateInfo -> {
-                assertThat(rateInfo).hasFieldOrPropertyWithValue("quotecurrency", "KRW");
-                assertThat(rateInfo.getMid()).isNotNull().isNotZero();
-                assertEquals(rateInfo.getMid(), todayRate);
-            });
+        assertNotNull(exchangeResponse);
+        assertThat(exchangeResponse)
+                .hasFieldOrProperty("exchangeMoney").isNotNull()
+                .hasFieldOrPropertyWithValue("country", "KRW");
+    }
+
+    @DisplayName("2. 오늘의 환율 정보 조회 API 테스트")
+    @Test
+    void givenExchangeRequest_whenGetTodayExchangeRate_thenReturnsExchangeResult() {
+
+        // given
+        ExchangeRequest exchangeRequest = ExchangeRequest.builder()
+                .exchangeMoney(100)
+                .country(Country.KRW)
+                .build();
+
+        // when
+        ExchangeResponse exchangeResponse = exchangeRateService.getTodayExchangeRate(exchangeRequest);
+
+        // then
+        assertNotNull(exchangeResponse);
+        assertThat(exchangeResponse)
+                .hasFieldOrProperty("exchangeMoney").isNotNull()
+                .hasFieldOrPropertyWithValue("country", "KRW");
     }
 }
