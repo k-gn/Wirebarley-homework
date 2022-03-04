@@ -14,6 +14,8 @@ const changeCountry = (target) => {
         country = res.data.country;
         exchangeMoney = res.data.exchangeMoney;
         showTodayExchangeMoney();
+    }).fail(err => {
+        alert(err.responseJSON.message);
     })
 }
 
@@ -29,12 +31,19 @@ function showCalcExchangeMoney(exchangeResponse) {
 
 function exchange() {
     const exchangeMoneyInput = document.querySelector("#exchangeMoneyInput");
-    $.ajax({
-        type: "Get",
-        url: `/exchange/calc?country=${country}&exchangeMoney=${exchangeMoneyInput.value}`,
-        contentType: "application/x-www-form-urlencoded; charset=utf-8"
-    }).done(res => {
-        console.log(res);
-        showCalcExchangeMoney(res.data);
-    })
+    const numCheck = /^[0-9]+$/;
+    if(numCheck.test(exchangeMoneyInput.value)) {
+        $.ajax({
+            type: "Get",
+            url: `/exchange/calc?country=${country}&exchangeMoney=${exchangeMoneyInput.value}`,
+            contentType: "application/x-www-form-urlencoded; charset=utf-8"
+        }).done(res => {
+            showCalcExchangeMoney(res.data);
+        }).fail(err => {
+            console.log(err.responseJSON);
+            alert(err.responseJSON.message);
+        })
+    }else {
+        alert("송금액이 바르지 않습니다.")
+    }
 }

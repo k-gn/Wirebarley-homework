@@ -2,14 +2,11 @@ package kr.co.wirebarley.homework.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.wirebarley.homework.dto.exchange.ExchangeRequest;
 import kr.co.wirebarley.homework.dto.exchange.ExchangeResponse;
 import kr.co.wirebarley.homework.dto.exchange.ExchangeResult;
 import kr.co.wirebarley.homework.dto.exchange.ExchangeResultTo;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -21,7 +18,6 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;

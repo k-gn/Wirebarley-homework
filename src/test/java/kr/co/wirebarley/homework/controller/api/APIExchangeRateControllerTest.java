@@ -13,9 +13,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
@@ -29,7 +32,7 @@ class APIExchangeRateControllerTest {
         this.mvc = mvc;
     }
 
-    @DisplayName("[API][GET] 오늘의 환율 정보 조회 요청")
+    @DisplayName("[API][GET] 오늘의 환율 정보 조회")
     @Test
     void givenExchangeRequest_whenRequestGetTodayExchangeRate_thenReturnsExchangeResultInStandardResponse() throws Exception {
         // given
@@ -55,7 +58,7 @@ class APIExchangeRateControllerTest {
                 .andDo(print());
     }
 
-    @DisplayName("[API][GET] 환율 계산 정보 조회 요청")
+    @DisplayName("[API][GET] 환율 계산 정보 조회")
     @Test
     void givenExchangeRequest_whenRequestCalculateExchangeRate_thenReturnsExchangeResultInStandardResponse() throws Exception {
         // given
@@ -79,5 +82,24 @@ class APIExchangeRateControllerTest {
                 .andExpect(jsonPath("$.errorCode").value(ErrorCode.OK.getCode()))
                 .andExpect(jsonPath("$.message").value(ErrorCode.OK.getMessage()))
                 .andDo(print());
+    }
+
+    @DisplayName("[API][GET] 잘못된 값으로 환율 계산 정보 조회")
+    @Test
+    void givenBadExchangeRequest_whenRequestCalculateExchangeRate_thenReturnsValidException() throws Exception {
+        // given
+        ExchangeRequest exchangeRequest = ExchangeRequest.builder()
+                .exchangeMoney(100000)
+                .country(Country.KRW)
+                .build();
+
+        // when & then
+        MvcResult mvcResult = mvc.perform(get("/exchange/calc")
+                .queryParam("exchangeMoney", String.valueOf(exchangeRequest.getExchangeMoney()))
+                .queryParam("country", exchangeRequest.getCountry().name())
+        )
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("송금액이 바르지 않습니다."))
+                .andReturn();
     }
 }
