@@ -19,8 +19,76 @@
 * spring-boot-starter-thymeleaf
 * lombok
 
-  <hr>
-
+### Structure
+├─main
+│  ├─java
+│  │  └─kr
+│  │      └─co
+│  │          └─wirebarley
+│  │              └─homework
+│  │                  │  WirebarleyHomeworkApplication.java
+│  │                  │
+│  │                  ├─constant (상수 패키지)
+│  │                  │      Country.java
+│  │                  │      ErrorCode.java
+│  │                  │
+│  │                  ├─controller (컨트롤러 패키지)
+│  │                  │  │  ExchangeRateController.java
+│  │                  │  │
+│  │                  │  └─api
+│  │                  │       APIExchangeRateController.java
+│  │                  │
+│  │                  ├─dto (DTO 패키지)
+│  │                  │  │  APIDataResponse.java
+│  │                  │  │  APIErrorResponse.java
+│  │                  │  │
+│  │                  │  └─exchange
+│  │                  │          ExchangeRequest.java
+│  │                  │          ExchangeResponse.java
+│  │                  │          ExchangeResult.java
+│  │                  │          ExchangeResultTo.java
+│  │                  │
+│  │                  ├─exception (예외처리 패키지)
+│  │                  │  │  GeneralException.java
+│  │                  │  │
+│  │                  │  └─handler
+│  │                  │          APIExceptionHandler.java
+│  │                  │
+│  │                  ├─service (서비스 패키지)
+│  │                  │      ExchangeRateService.java
+│  │                  │      ExchangeRateServiceImpl.java
+│  │                  │
+│  │                  └─util (유틸 패키지)
+│  │                      └─api
+│  │                           CurrencyAPI.java
+│  │
+│  └─resources
+│      │  application.yml
+│      │
+│      ├─static
+│      │  └─js
+│      │       exchange.js
+│      │       jquery-3.5.1.js
+│      │
+│      └─templates
+│              exchangeRate.html
+│
+└─test
+    └─java
+        └─kr
+            └─co
+                └─wirebarley
+                    └─homework
+                        │  WirebarleyHomeworkApplicationTests.java
+                        │
+                        ├─controller
+                        │  │  ExchangeRateControllerTest.java
+                        │  │
+                        │  └─api
+                        │       APIExchangeRateControllerTest.java
+                        │
+                        └─service
+                                ExchangeRateServiceImplTest.java
 ***
 
 
