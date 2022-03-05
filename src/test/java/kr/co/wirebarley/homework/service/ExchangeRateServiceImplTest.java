@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+@DisplayName("서비스 테스트")
 @SpringBootTest
 class ExchangeRateServiceImplTest {
 

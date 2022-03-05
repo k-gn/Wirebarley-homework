@@ -18,6 +18,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@DisplayName("API 컨트롤러 테스트")
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
@@ -91,7 +92,7 @@ class APIExchangeRateControllerTest {
                 .build();
 
         // when & then
-        MvcResult mvcResult = mvc.perform(get("/exchange/calc")
+        mvc.perform(get("/exchange/calc")
                 .queryParam("exchangeMoney", String.valueOf(exchangeRequest.getExchangeMoney()))
                 .queryParam("country", exchangeRequest.getCountry().name())
         )
