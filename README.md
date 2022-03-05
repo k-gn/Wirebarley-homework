@@ -20,11 +20,13 @@
 * lombok
 
 ### Structure
-> main
+> main 
+<br>
 ![image](https://user-images.githubusercontent.com/77544214/156867625-d4058a5a-b96c-439b-9515-53a4c7a4092c.png)
 * 상수, DTO, 컨트롤러, 서비스, 예외처리, 유틸 클래스
 
 > resource
+<br>
 ![image](https://user-images.githubusercontent.com/77544214/156867704-39c3dbd5-6f07-44a3-a9b6-7239faa7d9a0.png)
 * YML 설정파일 및 view 파일
 
