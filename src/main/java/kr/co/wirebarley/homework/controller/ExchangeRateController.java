@@ -10,13 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/exchange")
 @RequiredArgsConstructor
 public class ExchangeRateController {
 
     private final ExchangeRateService exchangeRateService;
 
-    @GetMapping
+    @GetMapping({"/", "/exchange"})
     public ModelAndView moveExchageRatePage(ModelAndView mv) {
         mv.addObject("exchangeRate", exchangeRateService.getTodayExchangeRate(
                 ExchangeRequest.builder().country(Country.KRW).exchangeMoney(0).build()

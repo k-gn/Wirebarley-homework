@@ -5,8 +5,6 @@ import kr.co.wirebarley.homework.dto.exchange.ExchangeRequest;
 import kr.co.wirebarley.homework.dto.exchange.ExchangeResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -14,7 +12,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
-@ExtendWith(MockitoExtension.class)
 class ExchangeRateServiceImplTest {
 
     private final ExchangeRateService exchangeRateService;
