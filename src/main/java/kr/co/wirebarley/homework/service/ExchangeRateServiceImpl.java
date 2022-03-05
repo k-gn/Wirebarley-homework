@@ -3,10 +3,12 @@ package kr.co.wirebarley.homework.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import kr.co.wirebarley.homework.constant.ErrorCode;
 import kr.co.wirebarley.homework.dto.exchange.ExchangeRequest;
 import kr.co.wirebarley.homework.dto.exchange.ExchangeResponse;
 import kr.co.wirebarley.homework.dto.exchange.ExchangeResult;
 import kr.co.wirebarley.homework.dto.exchange.ExchangeResultTo;
+import kr.co.wirebarley.homework.exception.GeneralException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -32,7 +34,7 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
     private String currencyAPIKey;
 
     @Override
-    public ExchangeResponse calculateExchangeRate(ExchangeRequest exchangeRequest) {
+    public ExchangeResponse getCalculateExchangeRate(ExchangeRequest exchangeRequest) {
         String url = makeCurrencyAPIUrl(exchangeRequest);
         ResponseEntity<String> response = requestCurrencyAPI(url);
         ExchangeResult<ExchangeResultTo> exchangeResult = currencyJsonToExchangeResult(response);
@@ -73,18 +75,18 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
 
     private ResponseEntity<String> requestCurrencyAPI(String url) {
         RestTemplate restTemplate = new RestTemplate();
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(makeCurrencyHeader());
-        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, request, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, makeCurrencyHttpEntity(), String.class);
         return response;
     }
 
     private ExchangeResult<ExchangeResultTo> currencyJsonToExchangeResult(ResponseEntity<String> response) {
-        ExchangeResult<ExchangeResultTo> exchangeResult = null;
-        ObjectMapper objectMapper = new ObjectMapper();
         try {
-            exchangeResult = objectMapper.readValue(response.getBody(), new TypeReference<>() {});
-        } catch (JsonProcessingException e) {}
-        return exchangeResult;
+            ObjectMapper objectMapper = new ObjectMapper();
+            ExchangeResult<ExchangeResultTo> exchangeResult = objectMapper.readValue(response.getBody(), new TypeReference<>() {});
+            return exchangeResult;
+        } catch (JsonProcessingException e) {
+            throw new GeneralException(ErrorCode.INTERNAL_ERROR);
+        }
     }
 
     private String makeCurrencyToken() {
@@ -100,17 +102,20 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
         return headers;
     }
 
+    private HttpEntity<MultiValueMap<String, String>> makeCurrencyHttpEntity() {
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(makeCurrencyHeader());
+        return request;
+    }
+
     private String changeTodayCurrencyDateToString() {
-        String today = "";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         if(verifyCurrencyStart()) {
             LocalDateTime todayDate = LocalDateTime.now();
-            today = todayDate.format(formatter);
+            return todayDate.format(formatter);
         }else {
             LocalDateTime previousDate = LocalDateTime.now().minusDays(1);
-            today = previousDate.format(formatter);
+            return previousDate.format(formatter);
         }
-        return today;
     }
 
     private boolean verifyCurrencyStart() {

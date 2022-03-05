@@ -25,7 +25,7 @@ public class APIExchangeRateController {
     @GetMapping("/calc")
     public ResponseEntity<?> calculateExchangeRate(@Valid ExchangeRequest exchangeRequest) {
 
-        return ResponseEntity.ok(APIDataResponse.of(exchangeRateService.calculateExchangeRate(exchangeRequest)));
+        return ResponseEntity.ok(APIDataResponse.of(exchangeRateService.getCalculateExchangeRate(exchangeRequest)));
     }
 
 }

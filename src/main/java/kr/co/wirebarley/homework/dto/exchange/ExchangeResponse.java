@@ -1,10 +1,8 @@
 package kr.co.wirebarley.homework.dto.exchange;
 
-import kr.co.wirebarley.homework.constant.Country;
 import lombok.*;
 
 import java.text.DecimalFormat;
-import java.util.List;
 
 @Getter
 @AllArgsConstructor
@@ -18,9 +16,10 @@ public class ExchangeResponse {
     public static ExchangeResponse resultToResponse(ExchangeResult<ExchangeResultTo> exchangeResult) {
 
         DecimalFormat df = new DecimalFormat("#,###.00");
+        ExchangeResultTo exchangeResultTo = exchangeResult.getTo().stream().findFirst().get();
         return ExchangeResponse.builder()
-                .exchangeMoney(df.format(exchangeResult.getTo().get(0).getMid()))
-                .country(exchangeResult.getTo().get(0).getQuotecurrency())
+                .exchangeMoney(df.format(exchangeResultTo.getMid()))
+                .country(exchangeResultTo.getQuotecurrency())
                 .build();
     }
 }

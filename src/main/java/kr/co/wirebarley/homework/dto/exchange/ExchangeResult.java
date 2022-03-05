@@ -2,7 +2,6 @@ package kr.co.wirebarley.homework.dto.exchange;
 
 import lombok.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter

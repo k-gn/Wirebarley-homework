@@ -33,6 +33,7 @@ public class APIExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> exception(Exception e) {
+        e.printStackTrace();
         return handleExceptionResponse(e, ErrorCode.INTERNAL_ERROR, HttpHeaders.EMPTY, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

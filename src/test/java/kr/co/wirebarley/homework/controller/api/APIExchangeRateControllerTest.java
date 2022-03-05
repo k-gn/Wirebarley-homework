@@ -1,6 +1,5 @@
 package kr.co.wirebarley.homework.controller.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.wirebarley.homework.constant.Country;
 import kr.co.wirebarley.homework.constant.ErrorCode;
 import kr.co.wirebarley.homework.dto.exchange.ExchangeRequest;
@@ -15,11 +14,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.hamcrest.Matchers.containsString;
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
