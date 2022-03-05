@@ -40,7 +40,6 @@ function exchange() {
         }).done(res => {
             showCalcExchangeMoney(res.data);
         }).fail(err => {
-            console.log(err.responseJSON);
             alert(err.responseJSON.message);
         })
     }else {
