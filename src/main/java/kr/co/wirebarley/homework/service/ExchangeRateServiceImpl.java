@@ -51,8 +51,7 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
     private ExchangeResult<ExchangeResultTo> currencyJsonToExchangeResult(ResponseEntity<String> response) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            ExchangeResult<ExchangeResultTo> exchangeResult = objectMapper.readValue(response.getBody(), new TypeReference<>() {});
-            return exchangeResult;
+            return objectMapper.readValue(response.getBody(), new TypeReference<>() {});
         } catch (JsonProcessingException e) {
             throw new GeneralException(ErrorCode.INTERNAL_ERROR);
         }

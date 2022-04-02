@@ -52,8 +52,7 @@ public class CurrencyAPI {
     public ResponseEntity<String> requestCurrencyAPI(String url) {
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(makeCurrencyHeader());
-        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.GET, request, String.class);
-        return response;
+        return restTemplate.exchange(url, HttpMethod.GET, request, String.class);
     }
 
     public String changeTodayCurrencyDateToString() {
@@ -69,8 +68,7 @@ public class CurrencyAPI {
 
     private String makeCurrencyToken() {
         String tokenString =  currencyAPIId.trim() + ":" + currencyAPIKey.trim();
-        String encodeToken = Base64.getEncoder().encodeToString(tokenString.getBytes());
-        return encodeToken;
+        return Base64.getEncoder().encodeToString(tokenString.getBytes());
     }
 
     private HttpHeaders makeCurrencyHeader() {
